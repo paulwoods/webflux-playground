@@ -1,4 +1,4 @@
-package org.mrpaulwoods.webfluxplayground;
+package org.mrpaulwoods.playground;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
