@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -30,6 +31,19 @@ public class TraditionalWebController {
 
         log.info("received response: {}", list);
         return list;
+    }
+
+    // bad - don't do this - this is not real reactive programming
+    @GetMapping("products2")
+    public Flux<Product> getProducts2() {
+        var list = this.restClient.get()
+                .uri("/demo01/products")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<Product>>() {
+                });
+
+        log.info("received response: {}", list);
+        return Flux.fromIterable(list);
     }
 
 }
