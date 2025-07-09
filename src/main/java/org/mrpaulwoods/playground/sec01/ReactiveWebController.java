@@ -23,16 +23,16 @@ public class ReactiveWebController {
     private final WebClient webClient = WebClient.builder()
             .baseUrl("http://localhost:7070")
             .build();
-
-    // browser will wait for all products, then display them.
-    @GetMapping("products")
-    public Flux<Product> getProducts() {
-        return this.webClient.get()
-                .uri("/demo01/products")
-                .retrieve()
-                .bodyToFlux(Product.class)
-                .doOnNext(p -> log.info("received: {}", p));
-    }
+//
+//    // browser will wait for all products, then display them.
+//    @GetMapping("products")
+//    public Flux<Product> getProducts() {
+//        return this.webClient.get()
+//                .uri("/demo01/products")
+//                .retrieve()
+//                .bodyToFlux(Product.class)
+//                .doOnNext(p -> log.info("received: {}", p));
+//    }
 
     // browser will display products as they arrive
     @GetMapping(value = "products/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -41,6 +41,21 @@ public class ReactiveWebController {
                 .uri("/demo01/products")
                 .retrieve()
                 .bodyToFlux(Product.class)
+                .doOnNext(p -> log.info("received: {}", p));
+    }
+
+    // if there is an error, send a complete signal instead
+
+    @GetMapping("products")
+    public Flux<Product> getProducts() {
+        return this.webClient.get()
+                .uri("/demo01/products/notorious")
+                .retrieve()
+                .bodyToFlux(Product.class)
+
+                // if error, change signal to complete
+                .onErrorComplete()
+
                 .doOnNext(p -> log.info("received: {}", p));
     }
 

@@ -21,17 +21,17 @@ public class TraditionalWebController {
             .baseUrl("http://localhost:7070")
             .build();
 
-    @GetMapping("products")
-    public List<Product> getProducts() {
-        var list = this.restClient.get()
-                .uri("/demo01/products")
-                .retrieve()
-                .body(new ParameterizedTypeReference<List<Product>>() {
-                });
-
-        log.info("received response: {}", list);
-        return list;
-    }
+//    @GetMapping("products")
+//    public List<Product> getProducts() {
+//        var list = this.restClient.get()
+//                .uri("/demo01/products")
+//                .retrieve()
+//                .body(new ParameterizedTypeReference<List<Product>>() {
+//                });
+//
+//        log.info("received response: {}", list);
+//        return list;
+//    }
 
     // bad - don't do this - this is not real reactive programming
     @GetMapping("products2")
@@ -44,6 +44,20 @@ public class TraditionalWebController {
 
         log.info("received response: {}", list);
         return Flux.fromIterable(list);
+    }
+
+    // if there is an error, you can't return the passing values.
+    // there isn't a way to fix this.
+    @GetMapping("products")
+    public List<Product> getProducts() {
+        var list = this.restClient.get()
+                .uri("/demo01/products/notorious")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<Product>>() {
+                });
+
+        log.info("received response: {}", list);
+        return list;
     }
 
 }
