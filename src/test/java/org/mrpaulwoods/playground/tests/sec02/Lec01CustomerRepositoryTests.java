@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import reactor.test.StepVerifier;
 
-public class Lec01CustomerRepositoryTest extends AbstractTest {
+public class Lec01CustomerRepositoryTests extends AbstractTest {
 
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Lec01CustomerRepositoryTest.class);
+    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Lec01CustomerRepositoryTests.class);
 
     @Autowired
     private CustomerRepository repository;
