@@ -1,5 +1,6 @@
 package org.mrpaulwoods.playground.sec02.repository;
 
+import org.mrpaulwoods.playground.sec02.dto.OrderDetails;
 import org.mrpaulwoods.playground.sec02.entity.CustomerOrder;
 import org.mrpaulwoods.playground.sec02.entity.Product;
 import org.springframework.data.r2dbc.repository.Query;
@@ -25,4 +26,20 @@ public interface CustomerOrderRepository extends ReactiveCrudRepository<Customer
     )
     Flux<Product> getProductsOrderedByCustomer(String name);
 
+    @Query("""
+            SELECT
+                co.order_id,
+                c.name AS customer_name,
+                p.description AS product_name,
+                co.amount,
+                co.order_date
+            FROM
+                customer c
+            INNER JOIN customer_order co ON c.id = co.customer_id
+            INNER JOIN product p ON p.id = co.product_id
+            WHERE
+                p.description = :description
+            ORDER BY co.amount DESC
+            """)
+    Flux<OrderDetails> getOrderDetailsByProduct(String description);
 }

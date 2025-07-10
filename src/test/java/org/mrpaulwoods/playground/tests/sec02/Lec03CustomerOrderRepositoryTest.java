@@ -23,8 +23,17 @@ public class Lec03CustomerOrderRepositoryTest extends AbstractTest {
                 .assertNext(p -> Assertions.assertEquals("mac pro", p.getDescription()))
                 .expectComplete()
                 .verify();
+    }
 
-
+    @Test
+    public void orderDetailsByProduct() {
+        this.repository.getOrderDetailsByProduct("iphone 20")
+                .doOnNext(dto -> log.info("{}", dto))
+                .as(StepVerifier::create)
+                .assertNext(dto -> Assertions.assertEquals(975, dto.amount()))
+                .assertNext(dto -> Assertions.assertEquals(950, dto.amount()))
+                .expectComplete()
+                .verify();
     }
 
 }
