@@ -19,7 +19,7 @@ public class Lec02ProductRepositoryTests extends AbstractTest {
     @Test
     public void findAll() {
         this.repository.findAll()
-                .doOnNext(c -> log.info("{}", c))
+                .doOnNext(p -> log.info("{}", p))
                 .as(StepVerifier::create)
                 .expectNextCount(10)
                 .expectComplete()
