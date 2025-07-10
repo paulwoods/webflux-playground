@@ -2,6 +2,7 @@ package org.mrpaulwoods.playground.tests.sec02;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mrpaulwoods.playground.sec02.entity.Customer;
 import org.mrpaulwoods.playground.sec02.repository.CustomerRepository;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,50 @@ public class Lec01CustomerRepositoryTest extends AbstractTest {
                 .as(StepVerifier::create)
                 .assertNext(c -> Assertions.assertEquals("mike@gmail.com", c.getEmail()))
                 .assertNext(c -> Assertions.assertEquals("jake@gmail.com", c.getEmail()))
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
+    public void insertAndDeleteCustomer() {
+
+        // insert
+        var customer = new Customer();
+        customer.setName("marshal");
+        customer.setEmail("marshal@gmail.com");
+        this.repository.save(customer)
+                .doOnNext(c -> log.info("{}", c))
+                .as(StepVerifier::create)
+                .assertNext(c -> Assertions.assertNotNull(c.getId()))
+                .expectComplete()
+                .verify();
+
+        // exists
+        this.repository.existsById(11)
+                .as(StepVerifier::create)
+                .expectNext(true)
+                .expectComplete()
+                .verify();
+
+        // count
+        this.repository.count()
+                .as(StepVerifier::create)
+                .expectNext(11L)
+                .expectComplete()
+                .verify();
+
+        // delete
+        this.repository.deleteById(11)
+                .then(this.repository.count())
+                .as(StepVerifier::create)
+                .expectNext(10L)
+                .expectComplete()
+                .verify();
+
+        // no longer exists
+        this.repository.existsById(11)
+                .as(StepVerifier::create)
+                .expectNext(false)
                 .expectComplete()
                 .verify();
     }
