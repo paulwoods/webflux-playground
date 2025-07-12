@@ -4,9 +4,12 @@ import org.mrpaulwoods.playground.sec03.dto.CustomerDto;
 import org.mrpaulwoods.playground.sec03.mapper.EntityDtoMapper;
 import org.mrpaulwoods.playground.sec03.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -17,6 +20,12 @@ public class CustomerService {
     public Flux<CustomerDto> getAllCustomers() {
         return this.customerRepository.findAll()
                 .map(EntityDtoMapper::toDto);
+    }
+
+    public Mono<List<CustomerDto>> getAllCustomers(Integer page, Integer size) {
+        return this.customerRepository.findBy(PageRequest.of(page - 1, size))
+                .map(EntityDtoMapper::toDto)
+                .collectList();
     }
 
     public Mono<CustomerDto> getCustomerById(Integer id) {
