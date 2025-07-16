@@ -19,7 +19,8 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping
-    public Flux<CustomerDto> allCustomers() {
+    public Flux<CustomerDto> allCustomers(@RequestAttribute("category") String category) {
+        System.out.println("category: " + category);
         return this.customerService.getAllCustomers();
     }
 
