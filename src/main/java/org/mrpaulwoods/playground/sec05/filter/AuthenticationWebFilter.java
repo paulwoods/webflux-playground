@@ -1,5 +1,6 @@
 package org.mrpaulwoods.playground.sec05.filter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ import java.util.Objects;
 @Order(1)
 public class AuthenticationWebFilter implements WebFilter {
 
+    @Autowired
+    private FilterErrorHandler errorHandler;
+
     private static final Map<String, Category> TOKEN_CATEGORY_MAP = Map.of(
             "secret123", Category.STANDARD,
             "secret456", Category.PRIME
@@ -29,7 +33,8 @@ public class AuthenticationWebFilter implements WebFilter {
             return chain.filter(exchange);
         }
 
-        return Mono.fromRunnable(() -> exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED));
+//        return Mono.fromRunnable(() -> exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED));
+        return errorHandler.sendProblemDetail(exchange, HttpStatus.UNAUTHORIZED, "Invalid token");
     }
 
 }
