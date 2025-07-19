@@ -1,7 +1,7 @@
-package org.mrpaulwoods.playground.sec06.assignment.config;
+package org.mrpaulwoods.playground.sec06.assignment_woods.config;
 
-import org.mrpaulwoods.playground.sec06.assignment.exceptions.BCannotBeZeroException;
-import org.mrpaulwoods.playground.sec06.assignment.service.CalculatorService;
+import org.mrpaulwoods.playground.sec06.assignment_woods.exceptions.BCannotBeZeroException;
+import org.mrpaulwoods.playground.sec06.assignment_woods.service.CalculatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.server.ServerRequest;

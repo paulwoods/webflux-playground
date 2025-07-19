@@ -1,4 +1,4 @@
-package org.mrpaulwoods.playground.sec06.assignment.filter;
+package org.mrpaulwoods.playground.sec06.assignment_woods.filter;
 
 public enum Operation {
     ADD("+"),

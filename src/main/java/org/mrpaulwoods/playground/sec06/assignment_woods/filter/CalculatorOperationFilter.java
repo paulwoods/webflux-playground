@@ -1,4 +1,4 @@
-package org.mrpaulwoods.playground.sec06.assignment.filter;
+package org.mrpaulwoods.playground.sec06.assignment_woods.filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

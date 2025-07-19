@@ -1,6 +1,6 @@
-package org.mrpaulwoods.playground.sec06.assignment.config;
+package org.mrpaulwoods.playground.sec06.assignment_woods.config;
 
-import org.mrpaulwoods.playground.sec06.assignment.exceptions.BCannotBeZeroException;
+import org.mrpaulwoods.playground.sec06.assignment_woods.exceptions.BCannotBeZeroException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Service;

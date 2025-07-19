@@ -1,4 +1,4 @@
-package org.mrpaulwoods.playground.sec06.assignment.service;
+package org.mrpaulwoods.playground.sec06.assignment_woods.service;
 
 import org.springframework.stereotype.Service;
 
