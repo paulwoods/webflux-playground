@@ -26,7 +26,7 @@ public class Lec01MonoTest extends AbstractWebClient {
     public void concurrentRequests() throws InterruptedException {
         for (int i = 1; i <= 50; ++i) {
             this.client.get()
-                    .uri("/lec01/product/" + i)
+                    .uri("/lec01/product/{id}", i)
                     .retrieve()
                     .bodyToMono(Product.class)
                     .doOnNext(print())
