@@ -17,7 +17,6 @@ public class Lec04HeaderTest extends AbstractWebClient {
     public void defaultHeader() {
         this.client.get()
                 .uri("/lec04/product/{id}", 1)
-
                 .retrieve()
                 .bodyToMono(Product.class)
                 .doOnNext(print())
