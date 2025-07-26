@@ -15,7 +15,7 @@ public class Lec09ExchangeFilterTest extends AbstractWebClient {
 
     public static final Logger log = LoggerFactory.getLogger(Lec09ExchangeFilterTest.class);
 
-    private final WebClient client = createWebClient(b -> b.filter(tokenGenerator()));
+    private final WebClient client = createWebClient(b -> b.filter(tokenGenerator()).filter(requestLogger()));
 
     @Test
     public void exchangeFilter() {
@@ -39,6 +39,13 @@ public class Lec09ExchangeFilterTest extends AbstractWebClient {
             log.info("generated token: {}", token);
             var modifiedRequest = ClientRequest.from(request).headers(h -> h.setBearerAuth(token)).build();
             return next.exchange(modifiedRequest);
+        };
+    }
+
+    private ExchangeFilterFunction requestLogger() {
+        return (request, next) -> {
+            log.info("request url - {}: {}", request.method(), request.url());
+            return next.exchange(request);
         };
     }
 
