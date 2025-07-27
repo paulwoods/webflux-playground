@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("products")
+@CrossOrigin(origins = "*")
 public class ProductController {
 
     private static final Logger log = LoggerFactory.getLogger(ProductController.class);
@@ -27,6 +28,15 @@ public class ProductController {
     @GetMapping(value = "stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ProductDto> productStream() {
         return productService.productStream();
+    }
+
+    // browse to http://localhost:8080/products/stream
+    // browse to http://localhost:8080/products/stream/50
+    @GetMapping(value = "stream/{maxPrice}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ProductDto> productStream2(@PathVariable Integer maxPrice) {
+        return productService
+                .productStream()
+                .filter(dto -> dto.getPrice() <= maxPrice);
     }
 
 }
