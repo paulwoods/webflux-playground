@@ -8,6 +8,7 @@ import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
 import java.time.Duration;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ProductUploadDownloadTest {
 
@@ -21,7 +22,7 @@ public class ProductUploadDownloadTest {
         var flux = Flux.just(new ProductDto(null, "iphone", 1000))
                 .delayElements(Duration.ofSeconds(10));
 
-        productClient.uploadProducts(flux)
+        productClient.uploadProducts1(flux)
                 .doOnNext(r -> log.info("received {}", r))
                 .then()
                 .as(StepVerifier::create)
@@ -36,12 +37,41 @@ public class ProductUploadDownloadTest {
                 .map(i -> new ProductDto(null, "product-" + i, i))
                 .delayElements(Duration.ofSeconds(2));
 
-        productClient.uploadProducts(flux)
+        productClient.uploadProducts1(flux)
                 .doOnNext(r -> log.info("received {}", r))
                 .then()
                 .as(StepVerifier::create)
                 .expectComplete()
                 .verify();
+    }
+
+    // million upload
+    @Test
+    public void upload3() {
+
+        var flux = Flux.range(1, 100_000)
+                .map(i -> new ProductDto(null, "product-" + i, i));
+
+        productClient.uploadProducts2(flux)
+                .doOnNext(r -> log.info("received {}", r))
+                .then()
+                .as(StepVerifier::create)
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
+    public void download1() {
+        AtomicInteger counter = new AtomicInteger(0);
+
+        productClient.downloadProducts1()
+                .doOnNext(r -> counter.incrementAndGet())
+                .then()
+                .as(StepVerifier::create)
+                .expectComplete()
+                .verify();
+
+        System.out.println(counter);
     }
 
 }

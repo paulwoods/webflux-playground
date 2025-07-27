@@ -1,5 +1,6 @@
 package org.mrpaulwoods.playground.sec08.dto;
 
+@SuppressWarnings("unused")
 public class ProductDto {
 
     private Integer id;

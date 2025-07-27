@@ -13,13 +13,30 @@ public class ProductClient {
             .baseUrl("http://localhost:8080")
             .build();
 
-    public Mono<UploadResponse> uploadProducts(Flux<ProductDto> flux) {
+    public Mono<UploadResponse> uploadProducts1(Flux<ProductDto> flux) {
         return this.client.post()
-                .uri("/products/upload")
+                .uri("/products/upload1")
                 .contentType(MediaType.APPLICATION_NDJSON)
                 .body(flux, ProductDto.class)
                 .retrieve()
                 .bodyToMono(UploadResponse.class);
+    }
+
+    public Mono<UploadResponse> uploadProducts2(Flux<ProductDto> flux) {
+        return this.client.post()
+                .uri("/products/upload2")
+                .contentType(MediaType.APPLICATION_NDJSON)
+                .body(flux, ProductDto.class)
+                .retrieve()
+                .bodyToMono(UploadResponse.class);
+    }
+
+    public Flux<ProductDto> downloadProducts1() {
+        return this.client.get()
+                .uri("/products/download1")
+                .accept(MediaType.APPLICATION_NDJSON)
+                .retrieve()
+                .bodyToFlux(ProductDto.class);
     }
 
 }
