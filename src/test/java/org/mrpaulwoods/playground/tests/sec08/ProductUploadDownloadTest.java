@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
+import java.nio.file.Path;
 import java.time.Duration;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -72,6 +73,19 @@ public class ProductUploadDownloadTest {
                 .verify();
 
         System.out.println(counter);
+    }
+
+    @Test
+    public void download2() {
+
+        productClient.downloadProducts1()
+                .map(ProductDto::toString)
+                .as(flux -> FileWriter.create(flux, Path.of("products.txt")))
+                .then()
+                .as(StepVerifier::create)
+                .expectComplete()
+                .verify();
+
     }
 
 }
