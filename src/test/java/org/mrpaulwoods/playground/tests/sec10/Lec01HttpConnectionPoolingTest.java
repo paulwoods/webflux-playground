@@ -3,16 +3,36 @@ package org.mrpaulwoods.playground.tests.sec10;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mrpaulwoods.playground.tests.sec10.dto.Product;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
 import reactor.test.StepVerifier;
-
-import java.time.Duration;
 
 public class Lec01HttpConnectionPoolingTest extends AbstractWebClient {
 
-    private final WebClient client = createWebClient();
+    private final WebClient client = createWebClient(b -> {
+
+        // change the connection pool to poolSize, and change the queue size to poolSize * 5
+
+        var poolSize = 501;
+
+        var provider = ConnectionProvider.builder("vins")
+                .lifo()
+                .maxConnections(poolSize)
+                .pendingAcquireMaxCount(poolSize * 5) // waiting queue size
+                .build();
+
+        var httpClient = HttpClient.create(provider)
+                .compress(true)
+                .keepAlive(true);
+
+        b.clientConnector(new ReactorClientHttpConnector(httpClient));
+
+
+    });
 
     private Mono<Product> getProduct(int id) {
         return client.get()
@@ -22,23 +42,20 @@ public class Lec01HttpConnectionPoolingTest extends AbstractWebClient {
     }
 
     @Test
-    public void concurrentRequests() throws InterruptedException {
-        var max = 10;
+    public void concurrentRequests() {
+        // flat map has a default size of 256
+        // webclient has a default size of 500
+
+        var max = 501;
         Flux.range(1, max)
-                .flatMap(this::getProduct)
+                .flatMap(this::getProduct, max)
                 .collectList()
                 .as(StepVerifier::create)
                 .assertNext(list -> Assertions.assertEquals(max, list.size()))
                 .expectComplete()
                 .verify();
-
-        Thread.sleep(Duration.ofMinutes(1));
     }
 
 }
 
-//Netstat command to monitor the network connections
-//netstat -an| grep -w 127.0.0.1.7070
-//
-//To watch
-//watch 'netstat -an| grep -w 127.0.0.1.7070'
+// watch 'netstat -an| grep -w 127.0.0.1.7070'
