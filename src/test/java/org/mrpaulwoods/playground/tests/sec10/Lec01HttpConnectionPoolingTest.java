@@ -17,7 +17,7 @@ public class Lec01HttpConnectionPoolingTest extends AbstractWebClient {
 
         // change the connection pool to poolSize, and change the queue size to poolSize * 5
 
-        var poolSize = 501;
+        var poolSize = 1_000;
 
         var provider = ConnectionProvider.builder("vins")
                 .lifo()
@@ -46,7 +46,7 @@ public class Lec01HttpConnectionPoolingTest extends AbstractWebClient {
         // flat map has a default size of 256
         // webclient has a default size of 500
 
-        var max = 501;
+        var max = 1_000;
         Flux.range(1, max)
                 .flatMap(this::getProduct, max)
                 .collectList()
