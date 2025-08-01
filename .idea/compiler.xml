@@ -8,11 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="lectures" />
         <module name="customer-service" />
+        <module name="aggregator-service" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="aggregator-service" options="-parameters" />
       <module name="customer-service" options="-parameters" />
       <module name="lectures" options="-parameters" />
     </option>

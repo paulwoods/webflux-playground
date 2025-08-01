@@ -1,4 +1,4 @@
-package org.mrpaulwoods.aggregatorservice;
+package org.mrpaulwoods.aggregator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
