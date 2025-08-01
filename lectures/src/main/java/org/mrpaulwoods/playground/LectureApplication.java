@@ -6,10 +6,10 @@ import org.springframework.data.r2dbc.repository.config.EnableR2dbcRepositories;
 
 @SpringBootApplication(scanBasePackages = "org.mrpaulwoods.playground.${sec}")
 @EnableR2dbcRepositories(basePackages = "org.mrpaulwoods.playground.${sec}")
-public class WebfluxPlaygroundApplication {
+public class LectureApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WebfluxPlaygroundApplication.class, args);
+        SpringApplication.run(LectureApplication.class, args);
     }
 
 }

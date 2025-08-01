@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.mrpaulwoods</groupId>
-    <artifactId>webflux-playground</artifactId>
+    <artifactId>lectures</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>webflux-playground</name>
-    <description>webflux-playground</description>
+    <name>lectures</name>
+    <description>lectures</description>
     <url/>
     <licenses>
         <license/>
