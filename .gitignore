@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### others ###
+.idea/vcs.xml
+.idea/workspace.xml
+
