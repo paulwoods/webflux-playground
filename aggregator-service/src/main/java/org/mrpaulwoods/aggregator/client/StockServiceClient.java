@@ -32,7 +32,7 @@ public class StockServiceClient {
     }
 
     public Flux<PriceUpdate> priceUpdateStream() {
-        if(Objects.isNull(this.flux)) {
+        if (Objects.isNull(this.flux)) {
             this.flux = this.getPriceUpdate();
         }
         return this.flux;

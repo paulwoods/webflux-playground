@@ -13,7 +13,7 @@ public class RequestValidator {
     public static UnaryOperator<Mono<TradeRequest>> validate() {
         return mono -> mono
                 .filter(hasTicker())
-        .switchIfEmpty(ApplicationExceptions.missingTicker())
+                .switchIfEmpty(ApplicationExceptions.missingTicker())
                 .filter(hasTradeAction())
                 .switchIfEmpty(ApplicationExceptions.missingTradeAction())
                 .filter(isValidQuantity())
