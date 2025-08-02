@@ -1,5 +1,6 @@
 package org.mrpaulwoods.aggregator.client;
 
+import org.mrpaulwoods.aggregator.domain.Ticker;
 import org.mrpaulwoods.aggregator.dto.PriceUpdate;
 import org.mrpaulwoods.aggregator.dto.StockPriceResponse;
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ public class StockServiceClient {
         this.client = client;
     }
 
-    public Mono<StockPriceResponse> getStockPrice(String ticker) {
+    public Mono<StockPriceResponse> getStockPrice(Ticker ticker) {
         return this.client.get()
                 .uri("/stock/{ticker}", ticker)
                 .retrieve()
