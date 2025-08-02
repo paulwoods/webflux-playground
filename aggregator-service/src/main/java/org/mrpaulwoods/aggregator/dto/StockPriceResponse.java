@@ -4,6 +4,6 @@ import org.mrpaulwoods.aggregator.domain.Ticker;
 
 public record StockPriceResponse(
         Ticker ticker,
-        Integer price,
+        Integer price
         ) {
 }
